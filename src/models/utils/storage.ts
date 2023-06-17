@@ -33,7 +33,7 @@ export default class Storage {
     metadata?: {}
   ): Promise<Storage> {
     const storageRef =
-      folder == undefined
+      folder === undefined
         ? ref(storage, `${title}`)
         : ref(storage, `${folder}/${title}`);
 
@@ -48,7 +48,7 @@ export default class Storage {
 
   static async get(title: string, folder?: string): Promise<Storage> {
     const storageRef =
-      folder == undefined
+      folder === undefined
         ? ref(storage, `${title}`)
         : ref(storage, `${folder}/${title}`);
 
@@ -82,7 +82,7 @@ export default class Storage {
     deleted: boolean;
   }> {
     const storageRef =
-      folder == undefined
+      folder === undefined
         ? ref(storage, `${title}`)
         : ref(storage, `${folder}/${title}`);
 

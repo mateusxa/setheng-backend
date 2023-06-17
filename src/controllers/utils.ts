@@ -2,17 +2,22 @@ import {Request} from 'express';
 import {verify} from 'jsonwebtoken';
 import * as nodemailer from 'nodemailer';
 
-export const checkSuperUser = async req => {
+export const checkSuperUser = async (req: Request) => {
   try {
-    const token = req.headers['x-access-token'];
+    const token = req.headers['x-access-token'] as string;
 
-    const decoded = verify(token, process.env.JWT_SECRET);
+    const decoded = verify(token, process.env.JWT_SECRET as string) as {
+      id: string;
+      type: string;
+      iat: number;
+      exp: number;
+    };
 
     if (decoded.type !== 'super') throw new Error('Not enough privilegies');
 
     return decoded;
   } catch (e) {
-    throw new Error(e);
+    throw new Error(e as string);
   }
 };
 
@@ -50,10 +55,10 @@ export const sendEmail = async (
 
   return await transporter
     .sendMail(mailOptions)
-    .then((info: {accepted: string}) => {
+    .then(info => {
       return 'Email sent to ' + info.accepted;
     })
-    .catch((error: string | undefined) => {
+    .catch(error => {
       throw new Error(error);
     });
 };

@@ -67,7 +67,7 @@ export default class SuperUser {
 
     userData.password = await _hashPassword(user.password);
 
-    return await addDoc(collection(firestore, 'super/users'), userData)
+    return await addDoc(collection(firestore, 'super-users'), userData)
       .then(user => {
         return this.get(user.id);
       })
@@ -95,7 +95,7 @@ export default class SuperUser {
       queryData.push(where('email', '==', email));
     }
 
-    const q = query(collection(firestore, 'super/users'), ...queryData);
+    const q = query(collection(firestore, 'super-users'), ...queryData);
 
     return await getDocs(q)
       .then(snapshot => {
@@ -123,7 +123,7 @@ export default class SuperUser {
   }
 
   static async get(id: string): Promise<SuperUser> {
-    const docRef = doc(firestore, 'super/users', id);
+    const docRef = doc(firestore, 'super-users', id);
     return await getDoc(docRef)
       .then(snapshot => {
         if (snapshot.exists()) {
@@ -177,7 +177,7 @@ export default class SuperUser {
 
     delete userJson['id'];
 
-    return updateDoc(doc(firestore, 'super/users', id), userJson)
+    return updateDoc(doc(firestore, 'super-users', id), userJson)
       .then(() => {
         return this.get(id);
       })
@@ -192,7 +192,7 @@ export default class SuperUser {
     deleted: boolean;
   }> {
     const superUser = await this.get(id);
-    const docRef = doc(firestore, 'super/users', id);
+    const docRef = doc(firestore, 'super-users', id);
 
     return deleteDoc(docRef)
       .then(() => {
